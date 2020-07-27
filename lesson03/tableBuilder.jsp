@@ -7,7 +7,6 @@ int numberOfCell = 1;
 int row = 0;
 int col = 0;
 boolean isCorrect = true;
-
 if(rowStr!=null && colStr!=null){
 	
 	try{
