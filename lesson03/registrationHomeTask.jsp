@@ -96,9 +96,9 @@ if(showForm){%>
 <tr><td>password: </td><td><input type="password" name="password" value="<%=(password!=null?password:"")%>"></td></tr>
 <tr><td>retype password: </td><td><input type="password" name="rePassword" value="<%=(rePassword!=null?rePassword:"")%>"></td></tr>
 <tr><td>name: </td><td><input type="text" name="name" value="<%=(name!=null?name:"")%>"></td></tr>
-<tr><td>gender: </td><td>M<input type="radio" name="gender" value="<%=(gender!=null && gender.equals("male")?"checked":"")%>">F<input type="radio" name="gender" value="<%=(gender!=null && gender.equals("female")?"checked":"")%>"></td></tr>
-<tr><td>address: </td><td><select name ="address"><option value="<%=(address!=null && address.equals("lnr")?"selected":"")%>">LRN</option><option value="<%=(address!=null && address.equals("dnr")?"selected":"")%>">DNR</option><option value="<%=(address!=null && address.equals("crimea")?"selected":"")%>">Crimea</option></select></td></tr>
-<tr><td>comment: </td><td><textarea name = "comment" cols = "15" rows="10" value="<%=(comment!=null?comment:"-")%>"></></textarea></td></tr>
+<tr><td>gender: </td><td>M<input type="radio" name="gender" value="male" <%=(gender!=null && gender.equals("male")?"checked":"")%>>F<input type="radio" name="gender" value="female" <%=(gender!=null && gender.equals("female")?"checked":"")%>></td></tr>
+<tr><td>address: </td><td><select name ="address"><option value="lnr"<%=(address!=null && address.equals("lnr")?"selected":"")%>>LRN</option><option value="dnr"<%=(address!=null && address.equals("dnr")?"selected":"")%>>DNR</option><option value="crimea"<%=(address!=null && address.equals("crimea")?"selected":"")%>>Crimea</option></select></td></tr>
+<tr><td>comment: </td><td><textarea name = "comment" cols = "15" rows="10" value="<%=(comment!=null?comment:"-")%>"></textarea></td></tr>
 <tr><td>I agree: </td><td><input type="checkbox" name = "agree"></td></tr>
 <tr><td></td><td><input type="submit" value="send"></td></tr>
 </table>
