@@ -21,16 +21,16 @@
 </div>
 <div class="radio">
 		<label>Gender:</label>
-		<input type="radio" id="male" name="gender" value="male" ${user.cGenderMale} />Male
-		<input type="radio" id="female" name="gender" value="female" ${user.cGenderFemale} />Female
+		<input type="radio" id="male" name="gender" value="male" ${genderChoice[0]} />Male
+		<input type="radio" id="female" name="gender" value="female" ${genderChoice[1]} />Female
 		
 </div>
 <div class="select">
 		<label>Address:</label>
 		<select name="address" id="addr">
-			<option value="lnr" ${user.cAddrLnr}>LRN</option>
-			<option value="dnr" ${user.cAddrDnr}>DNR</option>
-			<option value="crimea" ${user.cAddrCrimea}>Crimea</option>
+			<option value="lnr" ${addressChoice[0]}>LRN</option>
+			<option value="dnr" ${addressChoice[1]}>DNR</option>
+			<option value="crimea" ${addressChoice[2]}>Crimea</option>
 		</select>
 </div>
 <div class="textarea">

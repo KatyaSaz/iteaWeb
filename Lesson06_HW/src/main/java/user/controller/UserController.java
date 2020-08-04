@@ -13,25 +13,30 @@ import javax.servlet.http.HttpServletResponse;
 import user.model.User;
 import user.service.DBwork;
 
-public class UserController extends HttpServlet{
-	
+public class UserController extends HttpServlet {
+
+	private final String CHECKED = "checked";
+	private final String SELECTED = "selected";
+
 	private StringBuilder resultError = null;
+	private String[] genderChoice = { "", "" }; // [0] - male, [1] - female
+	private String[] addressChoice = { "", "", "" }; // [0] - lnr, [1] - dnr, [2] - crimea
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		RequestDispatcher rd = req.getRequestDispatcher("WEB-INF/views/regForm.jsp");
-		rd.forward(req, resp);		
+		rd.forward(req, resp);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+
 		RequestDispatcher rd = null;
 		Pattern pattern = null;
 		Matcher matcher = null;
 		boolean isError = false;
 		User user = new User();
-		
+
 		resultError = new StringBuilder();
 		resultError.append("");
 		resultError.append("<ul>");
@@ -62,7 +67,7 @@ public class UserController extends HttpServlet{
 			if (password.isEmpty()) {
 				resultError.append("<li>The 'password' is empty.</li>");
 				isError = true;
-			} 
+			}
 			if (rePassword.isEmpty()) {
 				resultError.append("<li>The 'rePassword' is empty.</li>");
 				isError = true;
@@ -87,25 +92,40 @@ public class UserController extends HttpServlet{
 			if (name.isEmpty()) {
 				resultError.append("<li>The 'name' is empty.</li>");
 				isError = true;
-			}else {
+			} else {
 				user.setName(name);
 			}
 			if (gender.isEmpty()) {
 				resultError.append("<li>The 'gender' is empty.</li>");
 				isError = true;
-			}else {
-				user.chooseGender(gender);
+			} else {
+				user.setGender(gender);
+				if (gender.equals("male")) {
+					genderChoice[0] = CHECKED;
+				}
+				if (gender.equals("female")) {
+					genderChoice[1] = CHECKED;
+				}
 			}
 			if (address.isEmpty()) {
 				resultError.append("<li>The 'address' is empty.</li>");
 				isError = true;
-			}else {
-				user.chooseAddress(address);
+			} else {
+				user.setAddress(address);
+				if (address.equals("lnr")) {
+					addressChoice[0] = SELECTED;
+				}
+				if (address.equals("dnr")) {
+					addressChoice[1] = SELECTED;
+				}
+				if (address.equals("crimea")) {
+					addressChoice[2] = SELECTED;
+				}
 			}
 			if (comment.isEmpty()) {
 				resultError.append("<li>The 'comment' is empty.</li>");
 				isError = true;
-			}else {
+			} else {
 				user.setComment(comment);
 			}
 			if (agree == null) {
@@ -114,14 +134,16 @@ public class UserController extends HttpServlet{
 			}
 			resultError.append("</ul>");
 			req.setAttribute("user", user);
+			req.setAttribute("genderChoice", genderChoice);
+			req.setAttribute("addressChoice", addressChoice);
 
 			if (isError) {
 				req.setAttribute("errorText", resultError.toString());
-				rd = req.getRequestDispatcher("WEB-INF/views/regForm.jsp");				
-			}else {
+				rd = req.getRequestDispatcher("WEB-INF/views/regForm.jsp");
+			} else {
 				DBwork dbWork = new DBwork();
 				dbWork.addNewUser(user);
-				rd = req.getRequestDispatcher("WEB-INF/views/regDone.jsp");			
+				rd = req.getRequestDispatcher("WEB-INF/views/regDone.jsp");
 			}
 			rd.forward(req, resp);
 		}

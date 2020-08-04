@@ -1,5 +1,9 @@
 package user.service;
 
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -67,7 +71,7 @@ public class DBwork {
 		
 		try(PreparedStatement stmt = con.prepareStatement(INSERT_USER);) {
 			stmt.setString(1, user.getLogin());
-			stmt.setString(2, user.getPassword());
+			stmt.setString(2, hashPassword(user.getPassword()));
 			stmt.setString(3, user.getName());
 			stmt.setString(4, user.getGender());
 			stmt.setString(5, user.getAddress());
@@ -83,6 +87,17 @@ public class DBwork {
 				e.printStackTrace();
 			}
 		}
+	}
+	private String hashPassword(String password) throws SQLException {
+		String hashPass = null;
+		try {
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			md.update(StandardCharsets.UTF_8.encode(password));
+			hashPass = String.format("%032x", new BigInteger(md.digest()));
+		} catch (NoSuchAlgorithmException e) {
+			throw new SQLException();
+		}
+		return hashPass;
 	}
 	
 }
