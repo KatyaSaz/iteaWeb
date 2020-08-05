@@ -50,32 +50,6 @@ public class UserControllerAutorisation extends HttpServlet {
 			}
 		}
 		rd.forward(req, resp);
-
-//		if (req.getParameter("logOut") != null) {
-//			session.setAttribute("userIn", null);
-//		}
-//		
-//		if (session.getAttribute("userIn") != null) {
-//			rd = req.getRequestDispatcher("WEB-INF/views/autorisUserView.jsp");
-//			rd.forward(req, resp);
-//		}else {
-//			String login = req.getParameter("login"); 	//by name = 'login'
-//			String password = req.getParameter("password");
-//
-//			DBwork dbWorker = new DBwork();
-//			User user = dbWorker.getName(login, password);
-//
-//			if (user == null) {
-//				errorText = "Login or Password isn't right!";
-//				req.setAttribute("errorText", errorText);
-//				rd = req.getRequestDispatcher("WEB-INF/views/autorisFormView.jsp");
-//			} else {
-//				req.setAttribute("user", user);
-//				session.setAttribute("userIn", user);
-//				rd = req.getRequestDispatcher("WEB-INF/views/autorisUserView.jsp");
-//			}
-//			rd.forward(req, resp);
-//		}
 		
 	}
 }
