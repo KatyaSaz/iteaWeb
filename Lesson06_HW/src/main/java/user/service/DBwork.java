@@ -17,7 +17,8 @@ import user.model.User;
 public class DBwork {
 	private  final String SELECT_USER = "SELECT NAME FROM `users_form` WHERE LOGIN = ? AND PASSWORD = ?;"; 
 	private static String INSERT_USER = "INSERT INTO `users_form`(`LOGIN`, `PASSWORD`, `NAME`, `GENDER`, `ADDRESS`, `COMMENT`) VALUES (?,?,?,?,?,?)";
-
+	public final static String SALT = ";'lkjuytf";
+	
 	public DBwork() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -92,7 +93,7 @@ public class DBwork {
 		String hashPass = null;
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
-			md.update(StandardCharsets.UTF_8.encode(password));
+			md.update(StandardCharsets.UTF_8.encode(password+SALT));
 			hashPass = String.format("%032x", new BigInteger(md.digest()));
 		} catch (NoSuchAlgorithmException e) {
 			throw new SQLException();
