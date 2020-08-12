@@ -9,18 +9,19 @@ import java.util.List;
 
 import wb.model.Product;
 
-public class ProductService extends Connector{
+public class ProductService {
 	
 	private final String SELECT_ALL_PRODUCTS = "SELECT * FROM `products`;";
+	private Connector connector;
 
 	public ProductService() {
-		super();
+		connector = new Connector();
 	}
 
 	public List<Product> getProducts() {
 		List<Product> products = new ArrayList<Product>();
 
-		Connection con = getConnection();
+		Connection con = connector.getConnection();
 		try (Statement stmt = con.createStatement();) {
 			ResultSet rs = stmt.executeQuery(SELECT_ALL_PRODUCTS);
 			while(rs.next()) {

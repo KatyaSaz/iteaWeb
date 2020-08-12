@@ -13,18 +13,20 @@ import java.util.ArrayList;
 
 import wb.model.User;
 
-public class UserService extends Connector{
+public class UserService{
 	private final String SELECT_USER = "SELECT NAME FROM `users_form` WHERE LOGIN = ? AND PASSWORD = ?;";
 	private static String INSERT_USER = "INSERT INTO `users_form`(`LOGIN`, `PASSWORD`, `NAME`, `GENDER`, `ADDRESS`, `COMMENT`) VALUES (?,?,?,?,?,?)";
 	public final static String SALT = ";'lkjuytf";
+	
+	private Connector connector;
 
 	public UserService() {
-		super();
+		connector = new Connector();
 	}
 
 	public User getName(String login, String password) {
 		User user = null;
-		Connection con = getConnection();
+		Connection con = connector.getConnection();
 		try (PreparedStatement ps = con.prepareStatement(SELECT_USER);) {
 			ps.setString(1, login);
 			ps.setString(2, hashPassword(password));
@@ -47,7 +49,7 @@ public class UserService extends Connector{
 	}
 
 	public void addNewUser(User user) {
-		Connection con = getConnection();
+		Connection con = connector.getConnection();
 
 		try (PreparedStatement stmt = con.prepareStatement(INSERT_USER);) {
 			stmt.setString(1, user.getLogin());
