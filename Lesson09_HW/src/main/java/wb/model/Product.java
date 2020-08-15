@@ -5,9 +5,10 @@ public class Product {
 	private int id;
 	private double price;
 	private String description;
-	private String shortDescription;
 	private String name;
 	private int category;
+	
+	private String shortDescription;
 
 	public Product() {
 	}
@@ -47,10 +48,9 @@ public class Product {
 		this.description = description;
 		return this;
 	}
-	
 
 	public String getShortDescription() {
-		return description.substring(0, 100)+"...";
+		return description.substring(0, 100) + "...";
 	}
 
 	public String getName() {

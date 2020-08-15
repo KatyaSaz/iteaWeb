@@ -11,31 +11,33 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import wb.model.Product;
-import wb.service.ProductService;
+import wb.service.DAOFactory;
+import wb.service.ProductDAO;
 
 public class ProductController extends HttpServlet {
 
 	private static final String PRODUCT_FORM = "WEB-INF/views/productView.jsp";
 
+	public static final int MY_SQL = 1;
+	private DAOFactory daoFactory;
+	private ProductDAO prodDAO;
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
 		RequestDispatcher rd = req.getRequestDispatcher(PRODUCT_FORM);
-		ProductService prodService = new ProductService();
+
+		daoFactory = DAOFactory.getInstance(MY_SQL);
+		prodDAO = daoFactory.getProductDAO();
+
 		String categoryId = req.getParameter("catId");
 		List<Product> productList = new ArrayList<>();
 		if (categoryId != null) {
-			productList = prodService.getProductsByCategory(Integer.valueOf(categoryId));
+			productList = prodDAO.getProductsByCategory(Integer.valueOf(categoryId));
 		} else {
-			productList = prodService.getProducts();
+			productList = prodDAO.getAllProducts();
 		}
 		req.setAttribute("products", productList);
 		rd.forward(req, resp);
 
-	}
-
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 	}
 }

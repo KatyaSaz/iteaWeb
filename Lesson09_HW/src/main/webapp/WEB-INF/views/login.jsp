@@ -19,13 +19,13 @@
 			<button value="send" type="submit">Enter</button>
 			<label id="remember"><input name="" type="checkbox" value="" /> Remember me</label>
 	</div>
-${errorText}
+	<div class="error">${errorText}</div>
 	</form>
 	</c:when>
 	<c:otherwise>
-<form action="./autorisation" method="post">
+<form id="logOutForm" action="./autorisation" method="post">
 	<input type="hidden" name="logOut" value = "logOut"/>
-	<input type="submit" value="Log Out"/>
+	<div class="submit"><button value="Log Out" type="submit">Log Out</button></div>
 </form>
 	</c:otherwise>
 </c:choose>

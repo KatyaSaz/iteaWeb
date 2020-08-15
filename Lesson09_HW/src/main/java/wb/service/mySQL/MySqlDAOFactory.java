@@ -1,12 +1,16 @@
-package wb.service;
+package wb.service.mySQL;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class Connector {
-	
-	public Connector() {
+import wb.service.DAOFactory;
+import wb.service.ProductDAO;
+import wb.service.UserDAO;
+
+public class MySqlDAOFactory extends DAOFactory {
+
+	public MySqlDAOFactory() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 		} catch (InstantiationException e) {
@@ -17,7 +21,6 @@ public class Connector {
 			e.printStackTrace();
 		}
 	}
-	
 	public Connection getConnection() {
 		Connection conn = null;
 		try {
@@ -29,4 +32,14 @@ public class Connector {
 		}
 		return conn;
 	}
+	
+	@Override
+	public UserDAO getUserDAO() {
+		return new MySqlUserDAO(this);
+	}
+	@Override
+	public ProductDAO getProductDAO() {
+		return new MySqlProductDAO(this);
+	}
+
 }

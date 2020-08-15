@@ -11,13 +11,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import wb.model.User;
-import wb.service.UserService;
+import wb.service.DAOFactory;
+import wb.service.UserDAO;
 
 public class UserControllerRegistration extends HttpServlet {
 
 	private final String CHECKED = "checked";
 	private final String SELECTED = "selected";
 	private static final String REG_FORM = "WEB-INF/views/registration.jsp";
+
+	public static final int MY_SQL = 1;
+	private DAOFactory daoFactory;
+	private UserDAO userDAO;
 
 	private StringBuilder resultError = null;
 	private String[] genderChoice = { "", "" }; // [0] - male, [1] - female
@@ -140,11 +145,12 @@ public class UserControllerRegistration extends HttpServlet {
 			if (isError) {
 				req.setAttribute("errorText", resultError.toString());
 			} else {
-				UserService userService = new UserService();
-				userService.addNewUser(user);
+				daoFactory = DAOFactory.getInstance(MY_SQL);
+				userDAO = daoFactory.getUserDAO();
+				userDAO.insertNewUser(user);
 			}
 		}
-		
+
 		req.setAttribute("flagError", isError);
 		rd.forward(req, resp);
 	}

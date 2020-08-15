@@ -1,14 +1,14 @@
 package wb.model;
 
 public class User {
-	
+
 	private String login;
 	private String password;
 	private String name;
 	private String gender;
 	private String address;
-	private String comment;	
-	
+	private String comment;
+
 	public User() {
 	}
 

@@ -10,12 +10,17 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import wb.model.User;
-import wb.service.UserService;
+import wb.service.DAOFactory;
+import wb.service.UserDAO;
 
 public class UserControllerAutorisation extends HttpServlet {
 
 	private static final String LOGIN_FORM = "WEB-INF/views/login.jsp";
-	
+
+	public static final int MY_SQL = 1;
+	private DAOFactory daoFactory;
+	private UserDAO userDAO;
+
 	private String errorText = "";
 
 	@Override
@@ -34,8 +39,9 @@ public class UserControllerAutorisation extends HttpServlet {
 		if (req.getParameter("logOut") != null) {
 			session.setAttribute("userIn", null);
 		} else {
-			UserService userService = new UserService();
-			User user = userService.getName(login, password);
+			daoFactory = DAOFactory.getInstance(MY_SQL);
+			userDAO = daoFactory.getUserDAO();
+			User user = userDAO.getNameOfUser(login, password);
 			errorText = "";
 			session.setAttribute("userIn", user);
 			if (user == null) {

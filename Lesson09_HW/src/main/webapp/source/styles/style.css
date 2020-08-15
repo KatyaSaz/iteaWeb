@@ -378,6 +378,13 @@ a:hover {
 	margin: 0 0 18px;
 }
 
+#loginForm .error{
+	color: red;
+	text-align: center;
+	font-size: 17px;
+	margin: 0 0 10px;
+}
+
 #loginForm .field label, #regForm .field label, #regForm .select label, #regForm .textarea label, #regForm .radio label  {
 	display: block;
 	margin: 3px 0 11px;
@@ -439,7 +446,7 @@ a:hover {
 	margin: 0 4px 0 0;
 	vertical-align: middle;
 }
-#loginForm .submit button, #regForm .submit button {
+#loginForm .submit button, #logOutForm .submit button, #regForm .submit button {
 	float: right;
 	padding: 6px 20px;
 	height: 30px;
@@ -462,5 +469,4 @@ a:hover {
 	text-shadow: 0 -1px rgba(0,0,0,0.15);
 	outline: none;
 }
-#loginForm .submit button, #regForm .submit button::-moz-focus-inner{border:0}
-
+#loginForm .submit button,#logOutForm .submit button, #regForm .submit button::-moz-focus-inner{border:0}
