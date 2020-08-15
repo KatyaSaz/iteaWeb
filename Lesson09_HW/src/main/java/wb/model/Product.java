@@ -5,6 +5,7 @@ public class Product {
 	private int id;
 	private double price;
 	private String description;
+	private String shortDescription;
 	private String name;
 	private int category;
 
@@ -45,6 +46,11 @@ public class Product {
 	public Product setDescription(String description) {
 		this.description = description;
 		return this;
+	}
+	
+
+	public String getShortDescription() {
+		return description.substring(0, 100)+"...";
 	}
 
 	public String getName() {

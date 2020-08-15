@@ -31,7 +31,6 @@ public class CartController extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		RequestDispatcher rd = req.getRequestDispatcher(PRODUCT_FORM);
 		String productId = req.getParameter("prodId");
 		String deleteId = req.getParameter("deleteId");
 		HttpSession session = req.getSession();
@@ -46,16 +45,12 @@ public class CartController extends HttpServlet {
 			resp.sendRedirect("./products");
 		}
 		
-//		if(deleteId!=null) {
-//			System.out.println("deleteId: "+ deleteId);
-//			products.remove(Integer.valueOf(deleteId));
-//			session.setAttribute("cart", products);
-//			if(products.size()>0) {
-//				rd = req.getRequestDispatcher(CART_FORM);
-//			}
-//			rd.forward(req, resp);
-//		}
-		
-		
+		if (deleteId != null) {
+			List<Product> prod = (List<Product>) session.getAttribute("cart");
+			prod.stream().filter(p -> p.getId() == Integer.valueOf(deleteId)).findFirst()
+			.ifPresent(p -> prod.remove(p));
+			session.setAttribute("cart", prod);
+			resp.sendRedirect("./cart");
+		}		
 	}
 }

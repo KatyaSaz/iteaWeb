@@ -9,7 +9,7 @@
 	<table id="productInfo" border="0">
 	<tr><td width="210"><a href="./prodInfo?itemId=${itms.id}"><div class="title">${itms.name}</div></td><td width="150"></a></td></tr>
 	<tr><td><a href="./prodInfo?itemId=${itms.id}"><img width="210" height = "400" src="./source/images/${itms.id}.jpg"></a></td>
-	<td><a href="./prodInfo?itemId=${itms.id}"><div class="info">${itms.description}</div></a></td></tr>
+	<td><a href="./prodInfo?itemId=${itms.id}"><div class="info">${itms.shortDescription}</div></a></td></tr>
 	<tr><td><a href="./prodInfo?itemId=${itms.id}"><div class="price">${itms.price} грн.</div></a></td><td>
 	<form action="./cart" method="post">
 		<input type="hidden" name="prodId" value="${itms.id}"/>
