@@ -2,6 +2,7 @@
 <%@ page isELIgnored = "false" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@include file="/source/includes/header.jsp" %>
+<script src="./source/scripts/jquery-3.5.1.js"></script>
 
 <body>    
 <center>
@@ -12,11 +13,11 @@
 		<td width = "150"><a href="./prodInfo?itemId=${itms.key.id}"><img width="105" height = "200" src="./source/images/${itms.key.id}.jpg"></a></td>
 		<td width = "350"><a href="./prodInfo?itemId=${itms.key.id}"><div class="info">${itms.key.name}</div></a></td>
 		<td width = "300">
-		<form id="formPM">
+		<div id="formPM">
 			<img id="imgMinus" src="./source/images/minus.png" width="25" height = "25" onclick="minus(${itms.key.id})"/>
 			<input type="text" name = "amount" id="qnt${itms.key.id}" value="${itms.value}" size="2" />
 			<img id="imgPlus" src="./source/images/plus.png" width="25" height = "25" onclick="plus(${itms.key.id})"/>
-		</form>
+		</div>
 		</td>
 		<td width = "150">
 	<form action="./cart" method="post">
@@ -50,6 +51,14 @@
 	
 	function show(numb){
 		var qnt = document.getElementById("qnt"+numb);
-		alert("id: "+numb+" quantity: "+qnt.value);
+		
+		$.ajax({
+		url: './cart',
+		type: 'POST',  // http method
+		data: {prodId: numb, amount: qnt.value},  // data to submit
+		success: function (data) {
+			document.getElementById("amountField").innerHTML = data;
+		}
+});
 	}
 </script>

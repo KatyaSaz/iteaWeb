@@ -1,6 +1,7 @@
 package wb.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +19,6 @@ import wb.model.Product;
 public class CartController extends HttpServlet {
 
 	private static final String CART_FORM = "WEB-INF/views/cartView.jsp";
-	private static final String PRODUCT_FORM = "WEB-INF/views/productView.jsp";
 
 	public static final int MY_SQL = 1;
 	private DAOFactory daoFactory;
@@ -36,36 +36,50 @@ public class CartController extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		PrintWriter out = resp.getWriter();
 		String productId = req.getParameter("prodId");
-		
 		String deleteId = req.getParameter("deleteId");
-		String amount = req.getParameter("amount");
+		String amountStr = req.getParameter("amount");
 		HttpSession session = req.getSession();
 		Map<Product, Integer> products = new HashMap<>();
+		int allQuantity = 0;
 
 		if (session.getAttribute("cart") != null) {
 			products = (Map<Product, Integer>) session.getAttribute("cart");
+			allQuantity = (int) session.getAttribute("allQuantity");
 		}
 		daoFactory = DAOFactory.getInstance(MY_SQL);
 		prodDAO = daoFactory.getProductDAO();
 		Product tmpProd = null;
+		int amount = 0;
 		if (productId != null) {
-			int amountInt = Integer.valueOf(amount);
+			amount = Integer.valueOf(amountStr);
+			allQuantity += amount;
 			tmpProd = prodDAO.getProductsByID(Integer.valueOf(productId));
 			if (products.get(tmpProd) != null) {
-				amountInt = products.get(tmpProd) + 1;
+				amount = products.get(tmpProd) + amount;
 			}
-			products.put(tmpProd, amountInt);
+			products.put(tmpProd, amount);
 			session.setAttribute("cart", products);
-			resp.sendRedirect("./products");
+			session.setAttribute("allQuantity", allQuantity);
+			out.write(String.valueOf(allQuantity));
 		}
 
 		if (deleteId != null) {
+			System.out.println("delId: " + deleteId);
+
+			tmpProd = prodDAO.getProductsByID(Integer.valueOf(deleteId));
 			Map<Product, Integer> prod = (Map<Product, Integer>) session.getAttribute("cart");
+			amount = prod.get(tmpProd);
+			allQuantity -= amount;
+			System.out.println("amount: " + amount);
+			
 			prod.keySet().stream().filter(p -> p.getId() == Integer.valueOf(deleteId)).findFirst()
-			.ifPresent(p -> prod.remove(p));
+					.ifPresent(p -> prod.remove(p));
 			session.setAttribute("cart", prod);
+			System.out.println("allQuantity: " + allQuantity);
+			session.setAttribute("allQuantity", allQuantity);
+			out.write(String.valueOf(allQuantity));
 			resp.sendRedirect("./cart");
 		}
 	}
