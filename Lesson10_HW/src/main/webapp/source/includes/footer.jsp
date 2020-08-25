@@ -15,7 +15,14 @@
 <c:otherwise>Guest</c:otherwise>
 </c:choose>
 					<br />
-                    В вашей корзине <span id="amountField">${sessionScope.allQuantity}</span> товаров.
+                    В вашей корзине <span id="amountField">
+<c:choose>
+<c:when test = "${sessionScope.allQuantity!=null}">
+					${sessionScope.allQuantity}
+</c:when>
+<c:otherwise>0</c:otherwise>
+</c:choose>
+</span> товаров.
                     </font>
                     </td>
                     </tr>
